@@ -5,7 +5,7 @@ from time import sleep
 class game_GUI(tk.Canvas):
 
     score_font = ("Comic Sans MS", 40, "bold")
-
+    box_coords = []
     class colour_list_enum(Enum):
         grey = "#6B6C6E"
         game_bg = "#BBADA0"
@@ -29,25 +29,34 @@ class game_GUI(tk.Canvas):
 
         #highlightthickeness is the thickness of the canvas which is by default 1...
         #...and it shows up as a white border so we set it to 0 because we don't want it.
-        global box
+
+
+        #below code stores the coordinates of each box in our grid
+        for y in range(4):
+            for x in range(4):
+                self.box_coords.append([x*100+104, y*100+104, x*100+200, y*100+200])       
+        
 
         self.draw_grid()
-    
+
     def draw_grid(self):
+        """This is a function that will draw the base grid of the game, this grid will not change.
+        """        
         self.create_rectangle((94, 94, 510, 510), disabledfill = self.colour_list_enum.game_bg.value, state = "disabled", width  = 2)
-        for y in range(4):
-            for x in range(4):
-                coords = (x*100+104, y*100+104, x*100+200, y*100+200)
-                self.create_rectangle(coords, disabledfill = self.colour_list_enum.disabled_tile.value, width = 2, state = "disabled")
-                self.create_text(250, 150, fill = self.colour_list_enum.grey.value, font = self.score_font, text = 2)
+        count = 0
+        for coord in self.box_coords:
+            self.create_rectangle(coord, disabledfill = self.colour_list_enum.disabled_tile.value, width = 2, state = "disabled", tags = ("rec" + str(count)))
+            count += 1
+            #self.create_text(250, 150, fill = self.colour_list_enum.grey.value, font = self.score_font, text = 2, tags = "text")
+
     
     def insert_box(self, values):
-        for y in range(4):
-            for x in range(4):
-                coords = (x*100+104, y*100+104, x*100+200, y*100+200)
-                self.create_rectangle(coords, disabledfill = self.colour_list_enum.disabled_tile.value, width = 2, state = "disabled")
-                self.create_text(250, 150, fill = self.colour_list_enum.grey.value, font = self.score_font, text = 2)
+        """This is a function that will insert a box with a particular text and colour depending on the text
 
+        Args:
+            values ([type]): [description]
+        """
+        pass
     
 
 root = tk.Tk()
